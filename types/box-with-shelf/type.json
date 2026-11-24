@@ -1,0 +1,122 @@
+{
+  "format": "boxsmith-type",
+  "version": 1,
+  "id": "box-with-shelf",
+  "name": "Box with a shelf",
+  "description": "Open front cubby with a slotted-in shelf",
+  "inside": {
+    "W": "2*t",
+    "D": "t",
+    "H": "2*t"
+  },
+  "params": [
+    {
+      "key": "shelfAt",
+      "label": "Shelf height (% of inside)",
+      "kind": "number",
+      "default": 50,
+      "min": 15,
+      "max": 85
+    }
+  ],
+  "let": {
+    "h": "round(t + (H - 3*t) * shelfAt / 100, 1)"
+  },
+  "parts": [
+    {
+      "box": {
+        "size": [
+          "W",
+          "D",
+          "H"
+        ],
+        "faces": [
+          "bottom",
+          "top",
+          "back",
+          "left",
+          "right"
+        ],
+        "holes": {
+          "left": [
+            {
+              "fingers": {
+                "size": [
+                  "D - 2*t",
+                  "t"
+                ],
+                "edges": [
+                  "f",
+                  "e",
+                  "e",
+                  "e"
+                ],
+                "at": [
+                  "t",
+                  "H - h - t"
+                ]
+              }
+            }
+          ],
+          "right": [
+            {
+              "fingers": {
+                "size": [
+                  "D - 2*t",
+                  "t"
+                ],
+                "edges": [
+                  "f",
+                  "e",
+                  "e",
+                  "e"
+                ],
+                "at": [
+                  "t",
+                  "H - h - t"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "panel": {
+        "name": "Shelf",
+        "size": [
+          "W",
+          "D - 2*t"
+        ],
+        "edges": [
+          "e",
+          "f",
+          "e",
+          "f"
+        ],
+        "at": [
+          0,
+          "t",
+          "h"
+        ],
+        "u": "X",
+        "v": "Y",
+        "n": "Z"
+      }
+    }
+  ],
+  "info": {
+    "inner": {
+      "W": "W-2*t",
+      "D": "D-t",
+      "H": "H-2*t"
+    }
+  },
+  "notes": [
+    "Slide the shelf's tabs into the slots in both sides as you put the sides on."
+  ],
+  "author": "Boxsmith",
+  "typeVersion": "1.0.0",
+  "icon": "open",
+  "license": "CC-BY-4.0"
+}

@@ -1,0 +1,126 @@
+{
+  "format": "boxsmith-type",
+  "version": 1,
+  "id": "caddy",
+  "name": "Caddy",
+  "description": "Open tray with a tall carrying handle down the middle",
+  "icon": "open",
+  "author": "Boxsmith",
+  "typeVersion": "1.0.0",
+  "license": "CC-BY-4.0",
+  "inside": {
+    "W": "2*t",
+    "D": "2*t",
+    "H": "t"
+  },
+  "params": [
+    {
+      "key": "handleUp",
+      "label": "Handle above the walls",
+      "kind": "length",
+      "default": 60,
+      "min": 25,
+      "max": 200
+    },
+    {
+      "key": "gripW",
+      "label": "Hand-hold length",
+      "kind": "length",
+      "default": 90,
+      "min": 40,
+      "max": 160
+    }
+  ],
+  "let": {
+    "Ht": "H + handleUp",
+    "gw": "min(gripW, W - 2*t - 30)",
+    "gh": "min(24, handleUp - 12)"
+  },
+  "parts": [
+    {
+      "box": {
+        "size": [
+          "W",
+          "D",
+          "H"
+        ],
+        "faces": [
+          "bottom",
+          "front",
+          "back",
+          "left",
+          "right"
+        ],
+        "holes": {
+          "bottom": [
+            {
+              "fingers": {
+                "size": [
+                  "W - 2*t",
+                  "t"
+                ],
+                "edges": [
+                  "f",
+                  "e",
+                  "e",
+                  "e"
+                ],
+                "at": [
+                  "t",
+                  "D/2 - t/2"
+                ]
+              }
+            }
+          ]
+        },
+        "text": {
+          "on": "front"
+        }
+      }
+    },
+    {
+      "panel": {
+        "name": "Handle",
+        "size": [
+          "W - 2*t",
+          "Ht"
+        ],
+        "edges": [
+          "e",
+          "e",
+          "f",
+          "e"
+        ],
+        "at": [
+          "t",
+          "D/2 - t/2",
+          "Ht"
+        ],
+        "u": "X",
+        "v": "-Z",
+        "n": "Y",
+        "holes": [
+          {
+            "slot": [
+              "(W - 2*t)/2",
+              "handleUp/2 + 2",
+              "gw",
+              "gh"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "info": {
+    "inner": {
+      "W": "W-2*t",
+      "D": "(D-3*t)/2",
+      "H": "H-t",
+      "label": "each side"
+    }
+  },
+  "notes": [
+    "Push the handle's tabs into the slots in the bottom before fitting the walls; glue it there."
+  ]
+}

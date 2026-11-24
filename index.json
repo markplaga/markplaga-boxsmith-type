@@ -1,0 +1,57 @@
+{
+  "format": "boxsmith-type-index",
+  "version": 1,
+  "repo": "markplaga/markplaga-boxsmith-type",
+  "types": [
+    {
+      "id": "box-with-shelf",
+      "name": "Box with a shelf",
+      "description": "Open front cubby with a slotted-in shelf",
+      "author": "Boxsmith",
+      "typeVersion": "1.0.0",
+      "license": "CC-BY-4.0",
+      "icon": "open",
+      "file": "types/box-with-shelf/type.json",
+      "preview": "types/box-with-shelf/preview.png",
+      "readme": null,
+      "params": [
+        "Shelf height (% of inside)"
+      ],
+      "parts": 6
+    },
+    {
+      "id": "caddy",
+      "name": "Caddy",
+      "description": "Open tray with a tall carrying handle down the middle",
+      "author": "Boxsmith",
+      "typeVersion": "1.0.0",
+      "license": "CC-BY-4.0",
+      "icon": "open",
+      "file": "types/caddy/type.json",
+      "preview": "types/caddy/preview.png",
+      "readme": null,
+      "params": [
+        "Handle above the walls",
+        "Hand-hold length"
+      ],
+      "parts": 6
+    },
+    {
+      "id": "tissue-box",
+      "name": "Tissue box",
+      "description": "Closed box with a pull slot in the top",
+      "author": "Boxsmith",
+      "typeVersion": "1.0.0",
+      "license": "CC-BY-4.0",
+      "icon": "closed",
+      "file": "types/tissue-box/type.json",
+      "preview": "types/tissue-box/preview.png",
+      "readme": null,
+      "params": [
+        "Slot length (% of the top)",
+        "Slot width"
+      ],
+      "parts": 6
+    }
+  ]
+}

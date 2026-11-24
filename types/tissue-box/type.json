@@ -1,0 +1,81 @@
+{
+  "format": "boxsmith-type",
+  "version": 1,
+  "id": "tissue-box",
+  "name": "Tissue box",
+  "description": "Closed box with a pull slot in the top",
+  "icon": "closed",
+  "author": "Boxsmith",
+  "typeVersion": "1.0.0",
+  "license": "CC-BY-4.0",
+  "inside": {
+    "W": "2*t",
+    "D": "2*t",
+    "H": "2*t"
+  },
+  "params": [
+    {
+      "key": "slotPct",
+      "label": "Slot length (% of the top)",
+      "kind": "number",
+      "default": 60,
+      "min": 20,
+      "max": 85
+    },
+    {
+      "key": "slotW",
+      "label": "Slot width",
+      "kind": "length",
+      "default": 30,
+      "min": 8,
+      "max": 120,
+      "help": "Across the slot, front to back."
+    }
+  ],
+  "let": {
+    "sl": "(W - 2*t) * slotPct / 100",
+    "sw": "min(slotW, D - 4*t - 10)"
+  },
+  "warnings": [
+    {
+      "when": "slotW > D - 4*t - 10",
+      "text": "The slot is narrowed to {fmt(sw)} so it stays clear of the walls."
+    }
+  ],
+  "parts": [
+    {
+      "box": {
+        "size": [
+          "W",
+          "D",
+          "H"
+        ],
+        "holes": {
+          "top": [
+            {
+              "slot": [
+                "W/2",
+                "D/2",
+                "sl",
+                "sw"
+              ]
+            }
+          ]
+        },
+        "text": {
+          "on": "front"
+        }
+      }
+    }
+  ],
+  "info": {
+    "inner": {
+      "W": "W-2*t",
+      "D": "D-2*t",
+      "H": "H-2*t"
+    }
+  },
+  "notes": [
+    "Glue the bottom and the four walls; leave the top unglued if you want to refill it from the top."
+  ]
+}

@@ -1,0 +1,44 @@
+name: Check box types
+
+# Every pull request: build each type in Boxsmith at many settings and fail on any problem.
+# Every push to main: the same, then write index.json, the previews and the README gallery, and commit them.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get Boxsmith
+        uses: actions/checkout@v4
+        with:
+          repository: markplaga/Boxsmith
+          path: boxsmith
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - name: Check every type
+        if: github.event_name == 'pull_request'
+        run: node tools/check.js
+      - name: Check, then write the index, previews and gallery
+        if: github.event_name != 'pull_request'
+        run: node tools/check.js --write
+      - name: Commit them
+        if: always() && github.event_name != 'pull_request'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.json README.md types/*/preview.png 2>/dev/null || true
+          if git diff --cached --quiet; then echo "Nothing changed."; else git commit -m "Update index, previews and gallery" && git push; fi

@@ -1,0 +1,16 @@
+{
+  "name": "markplaga-boxsmith-type",
+  "private": true,
+  "description": "Shared box styles for Boxsmith, checked on every pull request",
+  "scripts": {
+    "check": "node tools/check.js",
+    "build": "node tools/check.js --write"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "jsdom": "^31.0.1",
+    "@napi-rs/canvas": "^1.2.0",
+    "playwright-core": "^1.50.0"
+  },
+  "license": "MIT"
+}
