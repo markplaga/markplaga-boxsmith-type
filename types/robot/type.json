@@ -1,0 +1,737 @@
+{
+  "format": "boxsmith-type",
+  "version": 1,
+  "id": "robot",
+  "name": "Robot",
+  "description": "A posable robot with pivot-cross joints at neck, shoulders, elbows, hips, knees",
+  "icon": "closed",
+  "author": "Mark Plaga",
+  "typeVersion": "1.0.0",
+  "license": "CC-BY-4.0",
+  "screws": false,
+  "params": [
+    {
+      "key": "limbSize",
+      "label": "Limb thickness",
+      "kind": "length",
+      "default": 30,
+      "min": 16,
+      "max": 80,
+      "help": "How thick the arms, legs and neck are (square). Pivot tabs need room, so it is widened if the material is thick."
+    },
+    {
+      "key": "headSize",
+      "label": "Head size",
+      "kind": "length",
+      "default": 60,
+      "min": 20,
+      "max": 200
+    },
+    {
+      "key": "upperArm",
+      "label": "Upper arm length",
+      "kind": "length",
+      "default": 55,
+      "min": 20,
+      "max": 300
+    },
+    {
+      "key": "forearm",
+      "label": "Forearm length",
+      "kind": "length",
+      "default": 50,
+      "min": 20,
+      "max": 300
+    },
+    {
+      "key": "thigh",
+      "label": "Thigh length",
+      "kind": "length",
+      "default": 60,
+      "min": 20,
+      "max": 300
+    },
+    {
+      "key": "shin",
+      "label": "Shin length",
+      "kind": "length",
+      "default": 55,
+      "min": 20,
+      "max": 300
+    },
+    {
+      "key": "footLen",
+      "label": "Foot length",
+      "kind": "length",
+      "default": 50,
+      "min": 20,
+      "max": 200
+    },
+    {
+      "key": "headNod",
+      "label": "Head nod (forward +)",
+      "kind": "number",
+      "default": 0,
+      "min": -30,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "headTilt",
+      "label": "Head tilt (sideways)",
+      "kind": "number",
+      "default": 0,
+      "min": -30,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "armFwdL",
+      "label": "Left arm forward (back \u2212)",
+      "kind": "number",
+      "default": 0,
+      "min": -60,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "key": "armOutL",
+      "label": "Left arm out to the side",
+      "kind": "number",
+      "default": 0,
+      "min": 0,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "key": "elbowL",
+      "label": "Left elbow bend",
+      "kind": "number",
+      "default": 0,
+      "min": 0,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "key": "armFwdR",
+      "label": "Right arm forward (back \u2212)",
+      "kind": "number",
+      "default": 0,
+      "min": -60,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "key": "armOutR",
+      "label": "Right arm out to the side",
+      "kind": "number",
+      "default": 0,
+      "min": 0,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "key": "elbowR",
+      "label": "Right elbow bend",
+      "kind": "number",
+      "default": 0,
+      "min": 0,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "key": "legFwdL",
+      "label": "Left leg forward (back \u2212)",
+      "kind": "number",
+      "default": 0,
+      "min": -45,
+      "max": 45,
+      "step": 1
+    },
+    {
+      "key": "legOutL",
+      "label": "Left leg out to the side",
+      "kind": "number",
+      "default": 0,
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "help": "Legs only spread a little before they reach the arms; on a narrow robot this is limited further (a note says so)."
+    },
+    {
+      "key": "kneeL",
+      "label": "Left knee bend",
+      "kind": "number",
+      "default": 0,
+      "min": 0,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "key": "legFwdR",
+      "label": "Right leg forward (back \u2212)",
+      "kind": "number",
+      "default": 0,
+      "min": -45,
+      "max": 45,
+      "step": 1
+    },
+    {
+      "key": "legOutR",
+      "label": "Right leg out to the side",
+      "kind": "number",
+      "default": 0,
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "help": "Legs only spread a little before they reach the arms; on a narrow robot this is limited further (a note says so)."
+    },
+    {
+      "key": "kneeR",
+      "label": "Right knee bend",
+      "kind": "number",
+      "default": 0,
+      "min": 0,
+      "max": 60,
+      "step": 1
+    }
+  ],
+  "let": {
+    "hd": "pivotHole(t)",
+    "limbMin": "pivotMinSide()",
+    "limb": "max(limbMin, min(limbSize, (W - 10)/2, D))",
+    "head": "max(headSize, limb + 10)",
+    "stubH": "max(5*t, limb*0.6)",
+    "fh": "max(5*t, limb*0.5)",
+    "footL": "max(footLen, limb + 10)",
+    "legX": "max(W/4, limb/2 + 5)",
+    "spread": "8",
+    "rN": "pivotReach(limb, limb, 30, 30)",
+    "rE": "pivotReach(limb, limb, 60, 0)",
+    "rH": "pivotReach(limb, limb, 45, spread)",
+    "rK": "pivotReach(limb, limb, 60, 0)",
+    "zT": "fh + shin + 2*rK + thigh + 2*rH + stubH",
+    "zHip": "zT - stubH - rH",
+    "zKnee": "zHip - rH - thigh - rK",
+    "sw": "limb + 4",
+    "rS": "pivotReach(sw, limb, 60, 60)",
+    "zNeck": "zT + H + stubH + rN",
+    "zSh": "zT + H - stubH - rS",
+    "zEl": "zSh - rS - upperArm - rE",
+    "yc": "D/2",
+    "armBottom": "zEl - rE - forearm",
+    "legClear": "(W + 2) - (W/2 + legX + limb/2 + 2) - 1",
+    "legDepth": "zHip - armBottom",
+    "spreadSafe": "legDepth <= 0 ? spread : clamp(deg(asin(clamp(legClear/legDepth, 0, 1))), 0, spread)"
+  },
+  "warnings": [
+    {
+      "when": "limb > limbSize + 0.01",
+      "text": "Limbs widened to {fmt(limb)} so the pivot tabs have material around their {fmt(hd)} holes."
+    },
+    {
+      "when": "limb < limbSize - 0.01",
+      "text": "Limbs narrowed to {fmt(limb)} so two legs fit under the torso. Make the torso wider or deeper for thicker limbs."
+    },
+    {
+      "when": "head > headSize + 0.01",
+      "text": "Head enlarged to {fmt(head)} so it is wider than the neck."
+    },
+    {
+      "when": "max(legOutL, legOutR) > spreadSafe + 0.01",
+      "text": "Legs spread only {round(spreadSafe, 1)}\u00b0 so they clear the hanging arms. Raise the arms out to the side, or make the torso wider, for more."
+    }
+  ],
+  "parts": [
+    {
+      "box": {
+        "prefix": "Torso ",
+        "size": [
+          "W",
+          "D",
+          "H"
+        ],
+        "at": [
+          0,
+          0,
+          "zT"
+        ],
+        "text": {
+          "on": "front"
+        }
+      }
+    },
+    {
+      "box": {
+        "prefix": "Neck ",
+        "size": [
+          "limb",
+          "limb",
+          "stubH"
+        ],
+        "at": [
+          "W/2 - limb/2",
+          "yc - limb/2",
+          "zT + H"
+        ],
+        "ends": {
+          "top": {
+            "tabs": "left-right",
+            "reach": "rN"
+          }
+        }
+      }
+    },
+    {
+      "pivot": {
+        "name": "Neck cross",
+        "at": [
+          "W/2",
+          "yc",
+          "zNeck"
+        ],
+        "bend": "X",
+        "swing": "Y",
+        "size": [
+          "limb",
+          "limb"
+        ],
+        "bendAngle": "headNod",
+        "swingAngle": "headTilt",
+        "child": "head"
+      }
+    },
+    {
+      "frame": "head",
+      "box": {
+        "prefix": "Chin ",
+        "size": [
+          "limb",
+          "limb",
+          "stubH"
+        ],
+        "at": [
+          "W/2 - limb/2",
+          "yc - limb/2",
+          "zNeck + rN"
+        ],
+        "ends": {
+          "bottom": {
+            "tabs": "front-back",
+            "reach": "rN"
+          }
+        }
+      }
+    },
+    {
+      "frame": "head",
+      "box": {
+        "prefix": "Head ",
+        "size": [
+          "head",
+          "head",
+          "head"
+        ],
+        "at": [
+          "W/2 - head/2",
+          "yc - head/2",
+          "zNeck + rN + stubH"
+        ],
+        "holes": {
+          "front": [
+            {
+              "circle": [
+                "head*0.3",
+                "head*0.4",
+                "head*0.09"
+              ]
+            },
+            {
+              "circle": [
+                "head*0.7",
+                "head*0.4",
+                "head*0.09"
+              ]
+            },
+            {
+              "slot": [
+                "head/2",
+                "head*0.72",
+                "head*0.44",
+                "max(head*0.08, 2*t)"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "for": {
+        "s": [
+          0,
+          1
+        ]
+      },
+      "let": {
+        "sg": "s == 0 ? 1 : -1",
+        "x0": "s == 0 ? W : -sw",
+        "xc": "x0 + sw/2",
+        "fwd": "s == 0 ? armFwdL : armFwdR",
+        "out": "s == 0 ? armOutL : armOutR"
+      },
+      "box": {
+        "prefix": "Shoulder {s == 0 ? 'L' : 'R'} ",
+        "size": [
+          "sw",
+          "limb",
+          "stubH"
+        ],
+        "at": [
+          "x0",
+          "yc - limb/2",
+          "zT + H - stubH"
+        ],
+        "ends": {
+          "bottom": {
+            "tabs": "front-back",
+            "reach": "rS"
+          }
+        }
+      }
+    },
+    {
+      "for": {
+        "s": [
+          0,
+          1
+        ]
+      },
+      "let": {
+        "sg": "s == 0 ? 1 : -1",
+        "x0": "s == 0 ? W : -sw",
+        "xc": "x0 + sw/2",
+        "fwd": "s == 0 ? armFwdL : armFwdR",
+        "out": "s == 0 ? armOutL : armOutR"
+      },
+      "pivot": {
+        "name": "Shoulder {s == 0 ? 'L' : 'R'} cross",
+        "at": [
+          "xc",
+          "yc",
+          "zSh"
+        ],
+        "bend": "Y",
+        "swing": "X",
+        "size": [
+          "limb",
+          "limb"
+        ],
+        "bendAngle": "-sg*out",
+        "swingAngle": "-fwd",
+        "child": "shoulder{s}"
+      }
+    },
+    {
+      "for": {
+        "s": [
+          0,
+          1
+        ]
+      },
+      "let": {
+        "x0": "s == 0 ? W : -sw",
+        "xc": "x0 + sw/2"
+      },
+      "frame": "shoulder{s}",
+      "box": {
+        "prefix": "Upper arm {s == 0 ? 'L' : 'R'} ",
+        "size": [
+          "limb",
+          "limb",
+          "upperArm"
+        ],
+        "at": [
+          "xc - limb/2",
+          "yc - limb/2",
+          "zSh - rS - upperArm"
+        ],
+        "ends": {
+          "top": {
+            "tabs": "left-right",
+            "reach": "rS"
+          },
+          "bottom": {
+            "tabs": "left-right",
+            "reach": "rE"
+          }
+        }
+      }
+    },
+    {
+      "for": {
+        "s": [
+          0,
+          1
+        ]
+      },
+      "let": {
+        "x0": "s == 0 ? W : -sw",
+        "xc": "x0 + sw/2",
+        "bend": "s == 0 ? elbowL : elbowR"
+      },
+      "frame": "shoulder{s}",
+      "pivot": {
+        "name": "Elbow {s == 0 ? 'L' : 'R'} cross",
+        "at": [
+          "xc",
+          "yc",
+          "zEl"
+        ],
+        "bend": "X",
+        "swing": "Y",
+        "size": [
+          "limb",
+          "limb"
+        ],
+        "bendAngle": "-bend",
+        "swingAngle": 0,
+        "child": "elbow{s}"
+      }
+    },
+    {
+      "for": {
+        "s": [
+          0,
+          1
+        ]
+      },
+      "let": {
+        "x0": "s == 0 ? W : -sw",
+        "xc": "x0 + sw/2"
+      },
+      "frame": "elbow{s}",
+      "box": {
+        "prefix": "Forearm {s == 0 ? 'L' : 'R'} ",
+        "size": [
+          "limb",
+          "limb",
+          "forearm"
+        ],
+        "at": [
+          "xc - limb/2",
+          "yc - limb/2",
+          "zEl - rE - forearm"
+        ],
+        "ends": {
+          "top": {
+            "tabs": "front-back",
+            "reach": "rE"
+          }
+        }
+      }
+    },
+    {
+      "for": {
+        "s": [
+          0,
+          1
+        ]
+      },
+      "let": {
+        "sg": "s == 0 ? 1 : -1",
+        "hx": "W/2 + sg*legX"
+      },
+      "box": {
+        "prefix": "Hip {s == 0 ? 'L' : 'R'} ",
+        "size": [
+          "limb",
+          "limb",
+          "stubH"
+        ],
+        "at": [
+          "hx - limb/2",
+          "yc - limb/2",
+          "zT - stubH"
+        ],
+        "ends": {
+          "bottom": {
+            "tabs": "left-right",
+            "reach": "rH"
+          }
+        }
+      }
+    },
+    {
+      "for": {
+        "s": [
+          0,
+          1
+        ]
+      },
+      "let": {
+        "sg": "s == 0 ? 1 : -1",
+        "hx": "W/2 + sg*legX",
+        "fwd": "s == 0 ? legFwdL : legFwdR",
+        "out": "s == 0 ? legOutL : legOutR"
+      },
+      "pivot": {
+        "name": "Hip {s == 0 ? 'L' : 'R'} cross",
+        "at": [
+          "hx",
+          "yc",
+          "zHip"
+        ],
+        "bend": "X",
+        "swing": "Y",
+        "size": [
+          "limb",
+          "limb"
+        ],
+        "bendAngle": "-fwd",
+        "swingAngle": "-sg*min(out, spreadSafe)",
+        "child": "hip{s}"
+      }
+    },
+    {
+      "for": {
+        "s": [
+          0,
+          1
+        ]
+      },
+      "let": {
+        "sg": "s == 0 ? 1 : -1",
+        "hx": "W/2 + sg*legX"
+      },
+      "frame": "hip{s}",
+      "box": {
+        "prefix": "Thigh {s == 0 ? 'L' : 'R'} ",
+        "size": [
+          "limb",
+          "limb",
+          "thigh"
+        ],
+        "at": [
+          "hx - limb/2",
+          "yc - limb/2",
+          "zHip - rH - thigh"
+        ],
+        "ends": {
+          "top": {
+            "tabs": "front-back",
+            "reach": "rH"
+          },
+          "bottom": {
+            "tabs": "left-right",
+            "reach": "rK"
+          }
+        }
+      }
+    },
+    {
+      "for": {
+        "s": [
+          0,
+          1
+        ]
+      },
+      "let": {
+        "sg": "s == 0 ? 1 : -1",
+        "hx": "W/2 + sg*legX",
+        "bend": "s == 0 ? kneeL : kneeR"
+      },
+      "frame": "hip{s}",
+      "pivot": {
+        "name": "Knee {s == 0 ? 'L' : 'R'} cross",
+        "at": [
+          "hx",
+          "yc",
+          "zKnee"
+        ],
+        "bend": "X",
+        "swing": "Y",
+        "size": [
+          "limb",
+          "limb"
+        ],
+        "bendAngle": "bend",
+        "swingAngle": 0,
+        "child": "knee{s}"
+      }
+    },
+    {
+      "for": {
+        "s": [
+          0,
+          1
+        ]
+      },
+      "let": {
+        "sg": "s == 0 ? 1 : -1",
+        "hx": "W/2 + sg*legX"
+      },
+      "frame": "knee{s}",
+      "box": {
+        "prefix": "Shin {s == 0 ? 'L' : 'R'} ",
+        "size": [
+          "limb",
+          "limb",
+          "shin"
+        ],
+        "at": [
+          "hx - limb/2",
+          "yc - limb/2",
+          "fh"
+        ],
+        "ends": {
+          "top": {
+            "tabs": "front-back",
+            "reach": "rK"
+          }
+        }
+      }
+    },
+    {
+      "for": {
+        "s": [
+          0,
+          1
+        ]
+      },
+      "let": {
+        "sg": "s == 0 ? 1 : -1",
+        "hx": "W/2 + sg*legX"
+      },
+      "frame": "knee{s}",
+      "box": {
+        "prefix": "Foot {s == 0 ? 'L' : 'R'} ",
+        "size": [
+          "limb + 4",
+          "footL",
+          "fh"
+        ],
+        "at": [
+          "hx - limb/2 - 2",
+          "yc + limb/2 - footL",
+          0
+        ]
+      }
+    }
+  ],
+  "info": {
+    "inner": {
+      "W": "W - 2*t",
+      "D": "D - 2*t",
+      "H": "H - 2*t",
+      "label": "Torso"
+    }
+  },
+  "notes": [
+    "Size sets the torso. The robot stands {fmt(zNeck + rN + stubH + head)} tall.",
+    "Every joint is the same: two boxes whose ends grow round tabs with {fmt(hd)} holes, and a flat pivot cross between them whose square {fmt(t)} posts turn in those holes. The two pairs of tabs sit at right angles, so each joint bends two ways.",
+    "Build each box. On a box with tabs, the end panel goes between the two tab walls, its fingers in the slots just below the tabs, so put it in as those walls go on.",
+    "Before closing the second box of a joint, set the cross between the first box's tabs with its posts in their holes, then spring the other box's tabs over the cross's other two posts. Don't glue the posts: they turn.",
+    "Glue the short stubs onto the body: the neck on top of the torso, a shoulder high on each side, a hip under each side of the bottom; glue the chin stub under the head and each foot under its shin.",
+    "The joints are snug when new. If one is too stiff, sand its posts a little rounder; if it is floppy, a drop of PVA on the post (let it dry before turning) tightens it."
+  ]
+}
