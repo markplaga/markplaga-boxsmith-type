@@ -41,7 +41,7 @@
       "name": "Robot",
       "description": "A posable robot with pivot-cross joints at neck, shoulders, elbows, hips, knees",
       "author": "Mark Plaga",
-      "typeVersion": "1.0.0",
+      "typeVersion": "1.0.1",
       "license": "CC-BY-4.0",
       "icon": "closed",
       "file": "types/robot/type.json",
