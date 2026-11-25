@@ -6,7 +6,7 @@
   "description": "A posable robot with pivot-cross joints at neck, shoulders, elbows, hips, knees",
   "icon": "closed",
   "author": "Mark Plaga",
-  "typeVersion": "1.0.0",
+  "typeVersion": "1.0.1",
   "license": "CC-BY-4.0",
   "screws": false,
   "params": [
@@ -729,7 +729,7 @@
   "notes": [
     "Size sets the torso. The robot stands {fmt(zNeck + rN + stubH + head)} tall.",
     "Every joint is the same: two boxes whose ends grow round tabs with {fmt(hd)} holes, and a flat pivot cross between them whose square {fmt(t)} posts turn in those holes. The two pairs of tabs sit at right angles, so each joint bends two ways.",
-    "Build each box. On a box with tabs, the end panel goes between the two tab walls, its fingers in the slots just below the tabs, so put it in as those walls go on.",
+    "Build each box. On a box with tabs, the end panel goes between the two tab walls, its tenons in the notches on each side of the tabs, so put it in as those walls go on.",
     "Before closing the second box of a joint, set the cross between the first box's tabs with its posts in their holes, then spring the other box's tabs over the cross's other two posts. Don't glue the posts: they turn.",
     "Glue the short stubs onto the body: the neck on top of the torso, a shoulder high on each side, a hip under each side of the bottom; glue the chin stub under the head and each foot under its shin.",
     "The joints are snug when new. If one is too stiff, sand its posts a little rounder; if it is floppy, a drop of PVA on the post (let it dry before turning) tightens it."
